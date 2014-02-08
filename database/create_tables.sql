@@ -3,6 +3,7 @@ Aurélien Plisnier
 ---------------------------------------------------------
 */
 
+DROP TABLE IF EXISTS Logging;
 DROP TABLE IF EXISTS Parcel_Status;
 DROP TABLE IF EXISTS Parcel;
 DROP TABLE IF EXISTS Order_Status;
@@ -59,6 +60,7 @@ CREATE TABLE Orders (
 CREATE TABLE Order_Status (
 	order_id int(8) NOT NULL,
 	status varchar(20) NOT NULL,
+	comment varchar(200),
 	from_date DATETIME  default current_timestamp,
 	to_date DATETIME  default '9999-12-31 23:59:59',
 	PRIMARY KEY (order_id,from_date),
@@ -88,8 +90,17 @@ CREATE TABLE Parcel (
 CREATE TABLE Parcel_Status (
 	parcel_id int(8) NOT NULL,
 	status varchar(20) NOT NULL,
+	comment varchar(200),
 	from_date DATETIME  default current_timestamp,
 	to_date DATETIME  default '9999-12-31 23:59:59',
 	PRIMARY KEY (parcel_id,from_date),
 	FOREIGN KEY (parcel_id) REFERENCES Parcel(parcel_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE Logging (
+	time_stp timestamp default current_timestamp, 
+	user_id int(8) NOT NULL, 
+	action_type varchar(20) NOT NULL,
+	PRIMARY KEY ( time_stp, user_id),
+	FOREIGN KEY (user_id) REFERENCES User(user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
