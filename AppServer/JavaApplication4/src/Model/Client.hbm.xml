@@ -1,0 +1,31 @@
+<?xml version="1.0"?><!DOCTYPE hibernate-mapping
+PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+<class name="Model.Client" table="client">
+    
+<composite-id name="clientID">
+<key-property name="clientID" column="client_id" />
+<key-property name="fromDate" column="from_date" />
+</composite-id>
+
+<property name="country" type="string" column="country" />
+<property name="contactName" type="string" column="contact_name" />
+<property name="companyName" type="string" column="company_name" />
+<property name="addressStreet" type="string" column="address_street" />
+<property name="addressNumber" type="int" column="address_number" />
+<property name="postalCode" type="int" column="postal_code" />
+<property name="city" type="string" column="city" />
+<property name="region" type="string" column="region" />
+<property name="stateDepartment" type="string" column="state_department" />
+<property name="tel" type="long" column="tel" />
+<property name="fax" type="long" column="fax" />
+<property name="email" type="string" column="email" />
+<property name="tvaNumber" type="long" column="TVA_number" />
+<property name="timeStp" type="date" column="time_stp" />
+<property name="toDate" type="date" column="to_date" />
+</class>
+
+
+</hibernate-mapping>
