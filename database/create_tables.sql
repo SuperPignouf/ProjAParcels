@@ -15,6 +15,7 @@ CREATE TABLE User (
 	user_id int(8) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	first_name varchar(20) NOT NULL,
 	last_name varchar(20) NOT NULL,
+	matricule int(6) NOT NULL unique,
 	role int(1) NOT NULL,
 	password varchar(20) NOT NULL,
 	is_active int(1) NOT NULL default '0',
