@@ -73,7 +73,7 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 		headers.add(new BasicNameValuePair(name, value));
 	}
 
-	public void Execute(RequestMethod method) throws Exception
+	private void Execute(RequestMethod method) throws Exception
 	{
 		switch(method) {
 		case GET:
@@ -81,18 +81,19 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 			//add parameters
 			String combinedParams = "";
 			if(!params.isEmpty()){
-				combinedParams += "?";
+				//combinedParams += "?";
 				for(NameValuePair p : params)
 				{
-					String paramString = p.getName() + "=" + URLEncoder.encode(p.getValue(),"UTF-8");
-					if(combinedParams.length() > 1)
-					{
-						combinedParams  +=  "&" + paramString;
-					}
-					else
-					{
-						combinedParams += paramString;
-					}
+//					String paramString = p.getName() + "=" + URLEncoder.encode(p.getValue(),"UTF-8");
+//					if(combinedParams.length() > 1)
+//					{
+//						combinedParams  +=  "&" + paramString;
+//					}
+//					else
+//					{
+//						combinedParams += paramString;
+//					}
+					combinedParams += "/" + URLEncoder.encode(p.getValue(),"UTF-8");
 				}
 			}
 
@@ -136,6 +137,7 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 		HttpResponse httpResponse;
 
 		try {
+			//HttpGet requestTest = new HttpGet("www.jeuvideo.com");
 			httpResponse = client.execute(request);
 			responseCode = httpResponse.getStatusLine().getStatusCode();
 			message = httpResponse.getStatusLine().getReasonPhrase();

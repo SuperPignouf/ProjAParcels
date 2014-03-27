@@ -55,6 +55,7 @@ public class MainActivity extends Activity {
 			client.AddParam("matricule", matricule.getText().toString());
 			client.AddParam("password", password.getText().toString());
 			client.setRequestType(RequestMethod.GET);
+			
 			try {
 			    client.execute();
 			} catch (Exception e) {
