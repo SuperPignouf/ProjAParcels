@@ -25,6 +25,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
 import rest.RestClient.RequestMethod;
+import activities.MainActivity;
 import android.os.AsyncTask;
 
 public class RestClient extends AsyncTask<Void, Void, Void>{
@@ -39,6 +40,8 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 
 	private String response;
 	private RequestMethod requestType;
+	
+	private MainActivity mainActivity;
 
 	public enum RequestMethod {
 		GET, POST
@@ -56,8 +59,9 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 		return responseCode;
 	}
 
-	public RestClient(String url)
+	public RestClient(String url, MainActivity mainActivity)
 	{
+		this.mainActivity = mainActivity;
 		this.url = url;
 		params = new ArrayList<NameValuePair>();
 		headers = new ArrayList<NameValuePair>();
@@ -81,18 +85,8 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 			//add parameters
 			String combinedParams = "";
 			if(!params.isEmpty()){
-				//combinedParams += "?";
 				for(NameValuePair p : params)
 				{
-//					String paramString = p.getName() + "=" + URLEncoder.encode(p.getValue(),"UTF-8");
-//					if(combinedParams.length() > 1)
-//					{
-//						combinedParams  +=  "&" + paramString;
-//					}
-//					else
-//					{
-//						combinedParams += paramString;
-//					}
 					combinedParams += "/" + URLEncoder.encode(p.getValue(),"UTF-8");
 				}
 			}
@@ -137,7 +131,6 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 		HttpResponse httpResponse;
 
 		try {
-			//HttpGet requestTest = new HttpGet("www.jeuvideo.com");
 			httpResponse = client.execute(request);
 			responseCode = httpResponse.getStatusLine().getStatusCode();
 			message = httpResponse.getStatusLine().getReasonPhrase();
@@ -148,6 +141,7 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 
 				InputStream instream = entity.getContent();
 				response = convertStreamToString(instream);
+				this.mainActivity.notifyResult(response, this.requestType);
 
 				// Closing the input stream will trigger connection release
 				instream.close();
