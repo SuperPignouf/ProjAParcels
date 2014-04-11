@@ -36,7 +36,7 @@ CREATE TABLE Client (
 	tel int(20) NOT NULL,
 	fax int(20),
 	email varchar(30),
-	TVA_number int(20) NOT NULL,
+	TVA_number varchar(20) NOT NULL,
 	time_stp timestamp default current_timestamp,
 	from_date DATETIME default current_timestamp,
 	to_date DATETIME default '9999-12-31 23:59:59',
@@ -71,7 +71,7 @@ CREATE TABLE Order_Status (
 CREATE TABLE Parcel (
 	parcel_id int(8) NOT NULL,
 	order_id int(8) NOT NULL,
-	scan_code int(20) NOT NULL,
+	scan_code DECIMAL(20) NOT NULL,
 	scan_code_type varchar(10) NOT NULL,
 	mass_kg float NOT NULL,
 	lenght_cm float NOT NULL,
