@@ -1,5 +1,11 @@
+/*
+ * Code inspired by Sue Smith: see "http://code.tutsplus.com/tutorials/android-sdk-create-a-barcode-reader--mobile-17162"
+ */
+
 package activities;
 
+import rest.RestClient;
+import rest.RestClient.RequestMethod;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +23,7 @@ import com.google.zxing.integration.android.IntentResult;
 public class ScanActivity extends Activity implements OnClickListener {
 
 	private Button scanBtn;
-	private TextView formatTxt, contentTxt;
+	private TextView formatTxt, contentTxt, responseTxt;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,7 @@ public class ScanActivity extends Activity implements OnClickListener {
 		scanBtn = (Button)findViewById(R.id.scan_button);
 		formatTxt = (TextView)findViewById(R.id.scan_format);
 		contentTxt = (TextView)findViewById(R.id.scan_content);
+		responseTxt = (TextView)findViewById(R.id.scan_response);
 		scanBtn.setOnClickListener(this);
 	}
 
@@ -52,12 +59,31 @@ public class ScanActivity extends Activity implements OnClickListener {
 			String scanFormat = scanningResult.getFormatName();
 			formatTxt.setText("FORMAT: " + scanFormat);
 			contentTxt.setText("CONTENT: " + scanContent);
+
+			System.out.println("http://" + getString(R.string.restIP) + "/ParcelREST/rest/scan");
+			RestClient client =  new RestClient("http://" + getString(R.string.restIP) + "/ParcelREST/rest/scan", this);
+			client.AddParam("format", scanFormat);
+			client.AddParam("content", scanContent);
+			client.setRequestType(RequestMethod.GET);
+			try {
+				client.execute();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		else{
 			Toast toast = Toast.makeText(getApplicationContext(),
 					"No scan data received!", Toast.LENGTH_SHORT);
 			toast.show();
 		}
+	}
+
+	public void notifyResult(final String response) {
+		this.runOnUiThread(new Runnable() {
+			public void run() {
+				responseTxt.setText(response);
+			}
+		});	
 	}
 
 }

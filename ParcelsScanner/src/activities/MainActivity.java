@@ -58,8 +58,9 @@ public class MainActivity extends Activity {
 			String pass = password.getText().toString();
 			if (mat.matches("") || pass.matches("")) Toast.makeText(MA, "Please enter matricule and password", Toast.LENGTH_SHORT).show();
 			else{
-				System.out.println("http://" + getString(R.string.restIP) + "/ParcelREST/rest/hello");
-				RestClient client =  new RestClient("http://" + getString(R.string.restIP) + "/ParcelREST/rest/hello", MA);
+				System.out.println("http://" + getString(R.string.restIP) + "/ParcelREST/rest/login");
+				
+				RestClient client =  new RestClient("http://" + getString(R.string.restIP) + "/ParcelREST/rest/login", MA);
 				client.AddParam("matricule", mat);
 				client.AddParam("password", pass);
 				client.setRequestType(RequestMethod.GET);
@@ -72,23 +73,20 @@ public class MainActivity extends Activity {
 		}
 	};
 
-	public void notifyResult(String response, RequestMethod requestType) {
+	public void notifyResult(String response) {
 		System.out.println(response);
 
-		if (requestType.equals(RequestMethod.GET)){
-			if (response.contains("1")){
-				Intent intent = new Intent(getBaseContext(), ScanActivity.class);
-                startActivity(intent);   
-			}
-			else if (response.contains("0")){
-				final MainActivity MA = this;
-				this.runOnUiThread(new Runnable() {
-					public void run() {
-						Toast.makeText(MA, "Login failed !", Toast.LENGTH_SHORT).show();
-					}
-				});
-			}
+		if (response.contains("1")){
+			Intent intent = new Intent(getBaseContext(), ScanActivity.class);
+			startActivity(intent);   
 		}
-
+		else if (response.contains("0")){
+			final MainActivity MA = this;
+			this.runOnUiThread(new Runnable() {
+				public void run() {
+					Toast.makeText(MA, "Login failed !", Toast.LENGTH_SHORT).show();
+				}
+			});
+		}
 	}
 }

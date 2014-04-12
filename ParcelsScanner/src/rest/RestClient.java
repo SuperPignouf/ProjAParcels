@@ -1,5 +1,5 @@
 /*
- * Code inspired from Lukencode: see "http://lukencode.com/2010/04/27/calling-web-services-in-android-using-httpclient/"
+ * Code inspired by Lukencode: see "http://lukencode.com/2010/04/27/calling-web-services-in-android-using-httpclient/"
  */
 
 package rest;
@@ -26,6 +26,7 @@ import org.apache.http.protocol.HTTP;
 
 import rest.RestClient.RequestMethod;
 import activities.MainActivity;
+import activities.ScanActivity;
 import android.os.AsyncTask;
 
 public class RestClient extends AsyncTask<Void, Void, Void>{
@@ -42,6 +43,7 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 	private RequestMethod requestType;
 	
 	private MainActivity mainActivity;
+	private ScanActivity scanActivity;
 
 	public enum RequestMethod {
 		GET, POST
@@ -62,6 +64,16 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 	public RestClient(String url, MainActivity mainActivity)
 	{
 		this.mainActivity = mainActivity;
+		this.scanActivity = null;
+		this.url = url;
+		params = new ArrayList<NameValuePair>();
+		headers = new ArrayList<NameValuePair>();
+	}
+	
+	public RestClient(String url, ScanActivity scanActivity)
+	{
+		this.scanActivity = scanActivity;
+		this.mainActivity = null;
 		this.url = url;
 		params = new ArrayList<NameValuePair>();
 		headers = new ArrayList<NameValuePair>();
@@ -141,7 +153,8 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 
 				InputStream instream = entity.getContent();
 				response = convertStreamToString(instream);
-				this.mainActivity.notifyResult(response, this.requestType);
+				if(this.mainActivity != null) this.mainActivity.notifyResult(response);
+				else if (this.scanActivity != null) this.scanActivity.notifyResult(response);
 
 				// Closing the input stream will trigger connection release
 				instream.close();

@@ -8,8 +8,10 @@ import javax.ws.rs.core.MediaType;
 
 import database.DbHandler;
 
-// path is "http://localhost:8080/ParcelREST/rest/hello/111111/roger"
-@Path("/hello/{matricule}/{password}")
+// path is "http://localhost:8080/ParcelREST/rest/login/111111/roger"
+// or "http://192.168.1.8:8080/ParcelREST/rest/login/111111/roger"
+// type ipconfig in console to know ip address
+@Path("/login/{matricule}/{password}")
 public class LoginHandler {	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)

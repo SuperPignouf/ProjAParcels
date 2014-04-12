@@ -30,5 +30,14 @@
         android:layout_below="@id/scan_format"
         android:layout_centerHorizontal="true"
         android:textIsSelectable="true" />
+    
+    <TextView
+        android:id="@+id/scan_response"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scan_content"
+        android:layout_centerHorizontal="true"
+        android:textIsSelectable="true" />
+    
 
 </RelativeLayout>

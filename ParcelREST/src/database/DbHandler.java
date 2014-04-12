@@ -44,8 +44,8 @@ public class DbHandler {
 			e.printStackTrace();
 		}
 		this.close();
-		if (isValid) return "valid"; 
-		else return "invalid";
+		if (isValid) return "1"; 
+		else return "0";
 	}
 	
 	private void close(){
@@ -55,6 +55,41 @@ public class DbHandler {
 			System.out.println("Error closing connection to DB.");
 			e.printStackTrace();
 		}
+	}
+
+	public String scanningProduct(String format, String content) {
+		String returnValue = "Item not found.";
+		
+		Statement statement = null;
+		try {
+			statement = this.connection.createStatement();
+		} catch (SQLException e) {
+			System.out.println("Error making statement.");
+			e.printStackTrace();
+		}
+		ResultSet result = null;
+		try {
+			result = statement.executeQuery("SELECT content, description FROM parcel WHERE scan_code = " + content + " AND scan_code_type = '" + format + "'");
+		} catch (SQLException e) {
+			System.out.println("Error executing query.");
+			e.printStackTrace();
+		}
+		
+		try {
+			if (result.next())
+				try {
+					returnValue = result.getString(1) + ": " + result.getString(2);
+				} catch (SQLException e1) {
+					System.out.println("Error parsing query result.");
+					e1.printStackTrace();
+				}
+		} catch (SQLException e1) {
+			System.out.println("Error parsing query result.");
+			e1.printStackTrace();
+		}
+		
+		this.close();
+		return returnValue;
 	}
 
 }
