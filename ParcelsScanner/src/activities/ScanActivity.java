@@ -4,6 +4,8 @@
 
 package activities;
 
+import java.util.Scanner;
+
 import rest.RestClient;
 import rest.RestClient.RequestMethod;
 import android.app.Activity;
@@ -23,7 +25,9 @@ import com.google.zxing.integration.android.IntentResult;
 public class ScanActivity extends Activity implements OnClickListener {
 
 	private Button scanBtn;
-	private TextView formatTxt, contentTxt, responseTxt;
+	private TextView formatTxt, contentTxt, responseTxt, statusBtn;
+	private String scanContent, scanFormat;
+	private int state;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,10 @@ public class ScanActivity extends Activity implements OnClickListener {
 		formatTxt = (TextView)findViewById(R.id.scan_format);
 		contentTxt = (TextView)findViewById(R.id.scan_content);
 		responseTxt = (TextView)findViewById(R.id.scan_response);
+		statusBtn = (Button)findViewById(R.id.scan_status);
+		statusBtn.setVisibility(View.INVISIBLE);
 		scanBtn.setOnClickListener(this);
+		statusBtn.setOnClickListener(this);
 	}
 
 	@Override
@@ -47,18 +54,32 @@ public class ScanActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View arg0) {
 		if(arg0.getId()==R.id.scan_button){
+			state = 1;
 			IntentIntegrator scanIntegrator = new IntentIntegrator(this);
 			scanIntegrator.initiateScan();
+		}
+		if(arg0.getId()==R.id.scan_status){
+			state = 2;
+			System.out.println("Creating REST CLIENT: http://" + getString(R.string.restIP) + "/ParcelREST/rest/update");
+			RestClient client =  new RestClient("http://" + getString(R.string.restIP) + "/ParcelREST/rest/update", this);
+			client.AddParam("format", this.scanFormat);
+			client.AddParam("content", this.scanContent);
+			client.setRequestType(RequestMethod.GET);
+			try {
+				client.execute();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 		if (scanningResult != null) {
-			String scanContent = scanningResult.getContents();
-			String scanFormat = scanningResult.getFormatName();
-			formatTxt.setText("FORMAT: " + scanFormat);
-			contentTxt.setText("CONTENT: " + scanContent);
+			this.scanContent = scanningResult.getContents();
+			this.scanFormat = scanningResult.getFormatName();
+			this.formatTxt.setText("FORMAT: " + scanFormat);
+			this.contentTxt.setText("CONTENT: " + scanContent);
 
 			System.out.println("http://" + getString(R.string.restIP) + "/ParcelREST/rest/scan");
 			RestClient client =  new RestClient("http://" + getString(R.string.restIP) + "/ParcelREST/rest/scan", this);
@@ -81,7 +102,22 @@ public class ScanActivity extends Activity implements OnClickListener {
 	public void notifyResult(final String response) {
 		this.runOnUiThread(new Runnable() {
 			public void run() {
-				responseTxt.setText(response);
+				if (state == 2){
+					statusBtn.setVisibility(View.INVISIBLE);
+					Toast toast = Toast.makeText(getApplicationContext(),
+							"New status is " + response, Toast.LENGTH_LONG);
+					toast.show();
+					Scanner scan = new Scanner(responseTxt.getText().toString());
+					scan.useDelimiter("\n");
+					String result = scan.next();
+					result += "\n Current status: " + response;
+					responseTxt.setText(result);
+					scan.close();
+				}
+				else{
+					responseTxt.setText(response);
+					statusBtn.setVisibility(View.VISIBLE);
+				}
 			}
 		});	
 	}

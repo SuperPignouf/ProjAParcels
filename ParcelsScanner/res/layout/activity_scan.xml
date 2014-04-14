@@ -38,6 +38,12 @@
         android:layout_below="@id/scan_content"
         android:layout_centerHorizontal="true"
         android:textIsSelectable="true" />
-    
+    <Button
+        android:id="@+id/scan_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scan_response"
+        android:layout_centerHorizontal="true" 
+        android:text="@string/status" />    
 
 </RelativeLayout>
