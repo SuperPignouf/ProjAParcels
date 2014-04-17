@@ -1,15 +1,19 @@
 /*
  * Code inspired by Sue Smith: see "http://code.tutsplus.com/tutorials/android-sdk-create-a-barcode-reader--mobile-17162"
+ * and by "http://androidworkshop.tumblr.com/"
  */
 
 package activities;
 
 import java.util.Scanner;
 
+import nfc.NFCForegroundUtil;
 import rest.RestClient;
 import rest.RestClient.RequestMethod;
 import android.app.Activity;
 import android.content.Intent;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -29,20 +33,110 @@ public class ScanActivity extends Activity implements OnClickListener {
 	private String scanContent, scanFormat;
 	private int state;
 
+	private NFCForegroundUtil nfcForegroundUtil;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scan);
 
-		scanBtn = (Button)findViewById(R.id.scan_button);
-		formatTxt = (TextView)findViewById(R.id.scan_format);
-		contentTxt = (TextView)findViewById(R.id.scan_content);
-		responseTxt = (TextView)findViewById(R.id.scan_response);
-		statusBtn = (Button)findViewById(R.id.scan_status);
-		statusBtn.setVisibility(View.INVISIBLE);
-		scanBtn.setOnClickListener(this);
-		statusBtn.setOnClickListener(this);
+		this.scanBtn = (Button)findViewById(R.id.scan_button);
+		this.formatTxt = (TextView)findViewById(R.id.scan_format);
+		this.contentTxt = (TextView)findViewById(R.id.scan_content);
+		this.responseTxt = (TextView)findViewById(R.id.scan_response);
+		this.statusBtn = (Button)findViewById(R.id.scan_status);
+		this.statusBtn.setVisibility(View.INVISIBLE);
+		this.scanBtn.setOnClickListener(this);
+		this.statusBtn.setOnClickListener(this);
+
+		this.nfcForegroundUtil = new NFCForegroundUtil(this);
 	}
+
+	public void onPause() {
+		super.onPause();
+		this.nfcForegroundUtil.disableForeground();
+	}  
+
+	public void onResume() {
+		super.onResume();
+		this.nfcForegroundUtil.enableForeground();
+
+		if (!this.nfcForegroundUtil.getNfc().isEnabled())
+		{
+			Toast.makeText(getApplicationContext(), 
+					"Please activate NFC and press Back to return to the application!", 
+					Toast.LENGTH_LONG).show();
+			startActivity(
+					new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+		}
+
+	}
+
+	public void onNewIntent(Intent intent) {
+		Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+		
+		this.state = 1;
+		this.scanContent = bytesToHex(tag.getId());
+		this.scanFormat = "RFID";
+		this.formatTxt.setText("FORMAT: " + scanFormat);
+		this.contentTxt.setText("CONTENT: " + scanContent);
+		this.responseTxt.setText("");
+		statusBtn.setVisibility(View.VISIBLE);
+		
+		System.out.println("http://" + getString(R.string.restIP) + "/ParcelREST/rest/scan");
+		RestClient client =  new RestClient("http://" + getString(R.string.restIP) + "/ParcelREST/rest/scan", this);
+		client.AddParam("format", scanFormat);
+		client.AddParam("content", scanContent.replace(" ", ""));
+		client.setRequestType(RequestMethod.GET);
+		try {
+			client.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *  Convenience method to convert a byte array to a hex string.
+	 *
+	 * @param  data  the byte[] to convert
+	 * @return String the converted byte[]
+	 */
+
+	private String bytesToHex(byte[] data) {
+		StringBuffer buf = new StringBuffer();
+		for (int i = 0; i < data.length; i++) {
+			buf.append(byteToHex(data[i]).toUpperCase());
+			buf.append(" ");
+		}
+		return (buf.toString());
+	}
+
+	/**
+	 *  method to convert a byte to a hex string.
+	 *
+	 * @param  data  the byte to convert
+	 * @return String the converted byte
+	 */
+	private String byteToHex(byte data) {
+		StringBuffer buf = new StringBuffer();
+		buf.append(toHexChar((data >>> 4) & 0x0F));
+		buf.append(toHexChar(data & 0x0F));
+		return buf.toString();
+	}
+
+	/**
+	 *  Convenience method to convert an int to a hex char.
+	 *
+	 * @param  i  the int to convert
+	 * @return char the converted char
+	 */
+	private char toHexChar(int i) {
+		if ((0 <= i) && (i <= 9)) {
+			return (char) ('0' + i);
+		} else {
+			return (char) ('a' + (i - 10));
+		}
+	}    
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,7 +157,7 @@ public class ScanActivity extends Activity implements OnClickListener {
 			System.out.println("Creating REST CLIENT: http://" + getString(R.string.restIP) + "/ParcelREST/rest/update");
 			RestClient client =  new RestClient("http://" + getString(R.string.restIP) + "/ParcelREST/rest/update", this);
 			client.AddParam("format", this.scanFormat);
-			client.AddParam("content", this.scanContent);
+			client.AddParam("content", this.scanContent.replace(" ", ""));
 			client.setRequestType(RequestMethod.GET);
 			try {
 				client.execute();
@@ -79,7 +173,8 @@ public class ScanActivity extends Activity implements OnClickListener {
 			this.scanContent = scanningResult.getContents();
 			this.scanFormat = scanningResult.getFormatName();
 			this.formatTxt.setText("FORMAT: " + scanFormat);
-			this.contentTxt.setText("CONTENT: " + scanContent);
+			this.contentTxt.setText("CONTENT: " + scanContent.replace(" ", ""));
+			this.responseTxt.setText("");
 
 			System.out.println("http://" + getString(R.string.restIP) + "/ParcelREST/rest/scan");
 			RestClient client =  new RestClient("http://" + getString(R.string.restIP) + "/ParcelREST/rest/scan", this);
@@ -121,5 +216,4 @@ public class ScanActivity extends Activity implements OnClickListener {
 			}
 		});	
 	}
-
 }

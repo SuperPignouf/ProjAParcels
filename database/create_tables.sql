@@ -71,7 +71,7 @@ CREATE TABLE Order_Status (
 CREATE TABLE Parcel (
 	parcel_id int(8) NOT NULL,
 	order_id int(8) NOT NULL,
-	scan_code DECIMAL(20) NOT NULL,
+	scan_code TEXT(20) NOT NULL,
 	scan_code_type varchar(10) NOT NULL,
 	mass_kg float NOT NULL,
 	lenght_cm float NOT NULL,
