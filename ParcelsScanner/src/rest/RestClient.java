@@ -29,7 +29,7 @@ import activities.MainActivity;
 import activities.ScanActivity;
 import android.os.AsyncTask;
 
-public class RestClient extends AsyncTask<Void, Void, Void>{
+public class RestClient extends AsyncTask<Void, Void, Void>{ // Sorte de thread.
 
 	private ArrayList <NameValuePair> params;
 	private ArrayList <NameValuePair> headers;
@@ -42,9 +42,17 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 	private String response;
 	private RequestMethod requestType;
 	
+	/**
+	 * Une instance de l'activite appelante, de maniere a pouvoir la notifier et lui envoyer les 
+	 * resultats de la requete.
+	 * @see #executeRequest(HttpUriRequest, String)
+	 */
 	private MainActivity mainActivity;
 	private ScanActivity scanActivity;
 
+	/**
+	 * Les types requetes prises en compte.
+	 */
 	public enum RequestMethod {
 		GET, POST
 	}
@@ -61,6 +69,11 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 		return responseCode;
 	}
 
+	/**
+	 * Surcharge du constructeur: dans un cas l'activite appelante est mainActivity, dans l'autre scanActivity.
+	 * @param url L'URL du serveur
+	 * @param mainActivity L'activite appelante, il faut la notifier a la fin de l'execution
+	 */
 	public RestClient(String url, MainActivity mainActivity)
 	{
 		this.mainActivity = mainActivity;
@@ -70,6 +83,11 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 		headers = new ArrayList<NameValuePair>();
 	}
 	
+	/**
+	 * Surcharge du constructeur: dans un cas l'activite appelante est mainActivity, dans l'autre scanActivity.
+	 * @param url L'URL du serveur
+	 * @param scanActivity L'activite appelante, il faut la notifier a la fin de l'execution
+	 */
 	public RestClient(String url, ScanActivity scanActivity)
 	{
 		this.scanActivity = scanActivity;
@@ -89,6 +107,11 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 		headers.add(new BasicNameValuePair(name, value));
 	}
 
+	/**
+	 * Methode appelee lors de l'execution du thread.
+	 * @param method
+	 * @throws Exception
+	 */
 	private void Execute(RequestMethod method) throws Exception
 	{
 		switch(method) {
@@ -103,7 +126,7 @@ public class RestClient extends AsyncTask<Void, Void, Void>{
 				}
 			}
 
-			System.out.println(url + combinedParams);
+			System.out.println(url + combinedParams); // Affichage dans le LogCat de la requete
 			
 			HttpGet request = new HttpGet(url + combinedParams);
 
