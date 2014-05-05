@@ -5,6 +5,9 @@
 
 package activities;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import com.example.parcelsscanner.R;
 
 import rest.RestClient;
@@ -70,10 +73,25 @@ public class MainActivity extends Activity {
 			if (mat.matches("") || pass.matches("")) // Envoi d'un message d'erreur si un champ est laisse vide.
 				Toast.makeText(MA, "Please enter matricule and password", Toast.LENGTH_SHORT).show(); 
 			else{	
+				//Hash du password.
+				MessageDigest digest = null;
+				try {
+					digest = java.security.MessageDigest.getInstance("MD5");
+				} catch (NoSuchAlgorithmException e1) {
+					e1.printStackTrace();
+				}
+		        digest.update(pass.getBytes());
+		        byte messageDigest[] = digest.digest();
+		        StringBuffer hexString = new StringBuffer();
+		        for (int i=0; i<messageDigest.length; i++)
+		            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+		        String encryptedPass = hexString.toString();
+				
+				
 				// Instanciation et configuration d'un client REST.
 				RestClient client =  new RestClient("http://" + getString(R.string.restIP) + "/ParcelREST/rest/login", MA);
 				client.AddParam("matricule", mat);
-				client.AddParam("password", pass);
+				client.AddParam("password", encryptedPass);
 				client.setRequestType(RequestMethod.GET);
 				try {
 					client.execute(); // On commande au client d'executer la requete de login.

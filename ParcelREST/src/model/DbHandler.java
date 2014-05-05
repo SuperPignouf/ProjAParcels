@@ -4,6 +4,10 @@
 
 package model;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
 public class DbHandler {
@@ -12,9 +16,9 @@ public class DbHandler {
 
 	/**
 	 * Constructeur: ouvre une connexion avec la base de donnees.
-	 * @see controller.LoginHandler#login(int, String)
-	 * @see controller.ScanHandler#scan(String, String)
-	 * @see controller.StatusUpdateHandler#updateStatus(String, String)
+	 * @see webService.LoginHandler#login(int, String)
+	 * @see webService.ScanHandler#scan(String, String)
+	 * @see webService.StatusUpdateHandler#updateStatus(String, String)
 	 */
 	public DbHandler(){
 		String url = "jdbc:mysql://localhost:3306/";
@@ -29,6 +33,7 @@ public class DbHandler {
 			System.out.println("Error establishing connection to DB.");
 			e.printStackTrace();
 		}
+		//this.addUser(); // A SUPPRIMER
 	}
 
 	/**
@@ -37,7 +42,7 @@ public class DbHandler {
 	 * @param matricule Le matricule de l'utilisateur: nombre a 6 chiffres
 	 * @param password Le mot de passe de la personne
 	 * @return Un string valant 1 si l'utilisateur existe, 0 autrement.
-	 * @see controller.LoginHandler#login(int, String)
+	 * @see webService.LoginHandler#login(int, String)
 	 */
 	public String isRealUser(int matricule, String password) {
 		boolean isValid = false;
@@ -90,7 +95,7 @@ public class DbHandler {
 	 * @param content Le contenu du code barres ou de la puce RFID.
 	 * @return Un string contenant une description du paquet et de son statut actuel s'il existe.
 	 *  Sinon un message d'erreur.
-	 * @see controller.ScanHandler#scan(String, String)
+	 * @see webService.ScanHandler#scan(String, String)
 	 */
 	public String scanningProduct(String format, String content) {
 		String returnValue = "Item not found."; // Valeur par defaut
@@ -160,7 +165,7 @@ public class DbHandler {
 	 * @param format Le format d'encodage du code barres ou RFID.
 	 * @param content Le contenu du code barres ou de la puce RFID.
 	 * @return Un string contenant le nouveau statut du colis.
-	 * @see controller.StatusUpdateHandler#updateStatus(String, String)
+	 * @see webService.StatusUpdateHandler#updateStatus(String, String)
 	 */
 	public String updateStatus(String format, String content) {
 		Statement statement = null;
@@ -268,6 +273,45 @@ public class DbHandler {
 			e.printStackTrace();
 		}
 
+	}
+	
+	// Methode a usage personnel permettant  de peupler la base de donnees avec des passwords hashes
+	// Ne fera pas partie de la version finale du projet.
+	private void addUser(){
+		MessageDigest digest = null;
+		try {
+			digest = java.security.MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        digest.update("roger".getBytes());
+        byte messageDigest[] = digest.digest();
+        
+        // Create Hex String
+        StringBuffer hexString = new StringBuffer();
+        for (int i=0; i<messageDigest.length; i++)
+            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+        String encryptedString = hexString.toString();
+
+		
+		System.out.println(encryptedString);
+		Statement statement = null;
+		try {
+			statement = this.connection.createStatement();
+		} catch (SQLException e) {
+			System.out.println("Error making statement.");
+			e.printStackTrace();
+		}
+		try {	
+			statement.executeUpdate("UPDATE user "
+					+ "SET password = '" + encryptedString
+					+ "' WHERE user_id = 1");
+			
+		} catch (SQLException e) {
+			System.out.println("Error upating database.");
+			e.printStackTrace();
+		}
 	}
 
 }

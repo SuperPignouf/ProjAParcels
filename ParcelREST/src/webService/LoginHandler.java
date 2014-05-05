@@ -6,17 +6,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import database.DbHandler;
+import model.DbHandler;
 
-// path is "http://localhost:8080/ParcelREST/rest/login/111111/roger"
-// or "http://192.168.1.8:8080/ParcelREST/rest/login/111111/roger"
-// type ipconfig in console to know ip address
+/**
+ * Methode GET: reçoit les infos de login et renvoie 1 ou 0 en fonction de la validite de l'utilisateur
+ */
 @Path("/login/{matricule}/{password}")
 public class LoginHandler {	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String login(@PathParam("matricule") int matricule, @PathParam("password") String password) {
-		//TODO chiffrement ?
+		//TODO chiffrement
 		return new DbHandler().isRealUser(matricule, password);
 	}
 }
