@@ -10,6 +10,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
+import email.EmailSender;
+
 public class DbHandler {
 
 	private Connection connection;
@@ -167,10 +169,15 @@ public class DbHandler {
 	 * @return Un string contenant le nouveau statut du colis.
 	 * @see webService.StatusUpdateHandler#updateStatus(String, String)
 	 */
-	public String updateStatus(String format, String content) {
+	public String updateStatus(String format, String code) {
 		Statement statement = null;
 		String parcelID = "-1";
 		String returnValue = "Item not registered."; // Valeur initiale: message d'erreur.
+		String parcelContent = null;
+		String parcelDescription = null;
+		String currentStatus = null;
+		String senderEmail = null;
+		String receiverEmail = null;
 
 		try {
 			statement = this.connection.createStatement();
@@ -181,7 +188,8 @@ public class DbHandler {
 		ResultSet result = null;
 		try {
 			// On recupere l'ID du colis pour la suite.
-			result = statement.executeQuery("SELECT parcel_id FROM parcel WHERE scan_code = '" + content + "' AND scan_code_type = '" + format + "'");
+			result = statement.executeQuery("SELECT P.parcel_id, P.content, P.description, C1.email, C2.email FROM parcel P, orders O, client C1, client C2 WHERE P.scan_code = '" + code + "' AND P.scan_code_type = '" + format + "'"
+					+ "AND O.order_id = P.order_id AND C1.client_id = O.sender_id AND C2.client_id = O.receiver_id");
 		} catch (SQLException e) {
 			System.out.println("Error executing query.");
 			e.printStackTrace();
@@ -192,6 +200,10 @@ public class DbHandler {
 				try {
 					returnValue = "Item already delivered."; // On met a jour le message d'erreur.
 					parcelID = result.getString(1);
+					parcelContent = result.getString(2);
+					parcelDescription = result.getString(3);
+					senderEmail = result.getString(4);
+					receiverEmail = result.getString(5);
 					//On recupere le statut actuel du colis.
 					result = statement.executeQuery("SELECT PS.status FROM parcel_status PS WHERE PS.parcel_id = " + parcelID + " AND NOT EXISTS "
 							+ "(SELECT * FROM parcel_status WHERE parcel_id = PS.parcel_id AND from_date > PS.from_date)");
@@ -207,17 +219,19 @@ public class DbHandler {
 		try {
 			if (result.next())
 				try {
-					String currentStatus = result.getString(1);
+					currentStatus = result.getString(1);
 					// On calcule la nouvelle valeur du statut du colis: si le colis etait chez l'expediteur ("sender")
 					// ou en entrepot ("stored"), alors le nouveau statut est en transit.
 					if(currentStatus.equals("sender") || currentStatus.equals("stored")){
 						returnValue = "transit";
 						this.updateDB(parcelID, returnValue); // Mise a jour de l'etat du colis dans la base de donnees.
+						new EmailSender(parcelContent, parcelDescription, currentStatus, returnValue, senderEmail, receiverEmail);
 					}
 					// Si le colis etait en transit, le nouveau statut est delivre avec succes.
 					else if(currentStatus.equals("transit")){
 						returnValue = "delivered";
 						this.updateDB(parcelID, returnValue); // Mise a jour de l'etat du colis dans la base de donnees.
+						new EmailSender(parcelContent, parcelDescription, currentStatus, returnValue, senderEmail, receiverEmail);
 					}
 
 				} catch (SQLException e1) {

@@ -16,5 +16,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/asm-3.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jersey-bundle-1.17.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-3.1.14-bin.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mailapi.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/smtp.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
