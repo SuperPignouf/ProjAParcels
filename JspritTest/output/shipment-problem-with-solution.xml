@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<problem xmlns="http://www.w3schools.com"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3schools.com vrp_xml_schema.xsd">
+     <problemType>
+          <fleetSize>FINITE</fleetSize>
+          <fleetComposition>HOMOGENEOUS</fleetComposition>
+     </problemType>
+     <vehicles>
+          <vehicle>
+               <id>vehicle1_1</id>
+               <typeId>type1</typeId>
+               <startLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </startLocation>
+               <endLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </endLocation>
+               <timeSchedule>
+                    <start>0.0</start>
+                    <end>15.0</end>
+               </timeSchedule>
+               <returnToDepot>true</returnToDepot>
+          </vehicle>
+          <vehicle>
+               <id>vehicle1_2</id>
+               <typeId>type1</typeId>
+               <startLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </startLocation>
+               <endLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </endLocation>
+               <timeSchedule>
+                    <start>0.0</start>
+                    <end>15.0</end>
+               </timeSchedule>
+               <returnToDepot>true</returnToDepot>
+          </vehicle>
+          <vehicle>
+               <id>vehicle2_1</id>
+               <typeId>type2</typeId>
+               <startLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </startLocation>
+               <endLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </endLocation>
+               <timeSchedule>
+                    <start>0.0</start>
+                    <end>15.0</end>
+               </timeSchedule>
+               <returnToDepot>true</returnToDepot>
+          </vehicle>
+          <vehicle>
+               <id>vehicle2_2</id>
+               <typeId>type2</typeId>
+               <startLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </startLocation>
+               <endLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </endLocation>
+               <timeSchedule>
+                    <start>0.0</start>
+                    <end>15.0</end>
+               </timeSchedule>
+               <returnToDepot>true</returnToDepot>
+          </vehicle>
+          <vehicle>
+               <id>vehicle3</id>
+               <typeId>type3</typeId>
+               <startLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </startLocation>
+               <endLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </endLocation>
+               <timeSchedule>
+                    <start>0.0</start>
+                    <end>15.0</end>
+               </timeSchedule>
+               <returnToDepot>true</returnToDepot>
+          </vehicle>
+          <vehicle type="penalty">
+               <id>penaltyVehicle_[x=10.0][y=10.0]_type1</id>
+               <typeId>type1</typeId>
+               <startLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </startLocation>
+               <endLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </endLocation>
+               <timeSchedule>
+                    <start>0.0</start>
+                    <end>15.0</end>
+               </timeSchedule>
+               <returnToDepot>true</returnToDepot>
+          </vehicle>
+          <vehicle type="penalty">
+               <id>penaltyVehicle_[x=10.0][y=10.0]_type2</id>
+               <typeId>type2</typeId>
+               <startLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </startLocation>
+               <endLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </endLocation>
+               <timeSchedule>
+                    <start>0.0</start>
+                    <end>15.0</end>
+               </timeSchedule>
+               <returnToDepot>true</returnToDepot>
+          </vehicle>
+          <vehicle type="penalty">
+               <id>penaltyVehicle_[x=10.0][y=10.0]_type3</id>
+               <typeId>type3</typeId>
+               <startLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </startLocation>
+               <endLocation>
+                    <id>[x=10.0][y=10.0]</id>
+                    <coord x="10.0" y="10.0"/>
+               </endLocation>
+               <timeSchedule>
+                    <start>0.0</start>
+                    <end>15.0</end>
+               </timeSchedule>
+               <returnToDepot>true</returnToDepot>
+          </vehicle>
+     </vehicles>
+     <vehicleTypes>
+          <type>
+               <id>type1</id>
+               <capacity-dimensions>
+                    <dimension index="0">120</dimension>
+               </capacity-dimensions>
+               <costs>
+                    <fixed>0.0</fixed>
+                    <distance>1.0</distance>
+                    <time>0.0</time>
+               </costs>
+          </type>
+          <type>
+               <id>type2</id>
+               <capacity-dimensions>
+                    <dimension index="0">160</dimension>
+               </capacity-dimensions>
+               <costs>
+                    <fixed>0.0</fixed>
+                    <distance>1.2</distance>
+                    <time>0.0</time>
+               </costs>
+          </type>
+          <type>
+               <id>type3</id>
+               <capacity-dimensions>
+                    <dimension index="0">300</dimension>
+               </capacity-dimensions>
+               <costs>
+                    <fixed>0.0</fixed>
+                    <distance>1.4</distance>
+                    <time>0.0</time>
+               </costs>
+          </type>
+          <type penaltyFactor="5.0" type="penalty">
+               <id>type1</id>
+               <capacity-dimensions>
+                    <dimension index="0">120</dimension>
+               </capacity-dimensions>
+               <costs>
+                    <fixed>5000.0</fixed>
+                    <distance>5.0</distance>
+                    <time>0.0</time>
+               </costs>
+          </type>
+          <type penaltyFactor="5.0" type="penalty">
+               <id>type2</id>
+               <capacity-dimensions>
+                    <dimension index="0">160</dimension>
+               </capacity-dimensions>
+               <costs>
+                    <fixed>5000.0</fixed>
+                    <distance>6.0</distance>
+                    <time>0.0</time>
+               </costs>
+          </type>
+          <type penaltyFactor="5.0" type="penalty">
+               <id>type3</id>
+               <capacity-dimensions>
+                    <dimension index="0">300</dimension>
+               </capacity-dimensions>
+               <costs>
+                    <fixed>5000.0</fixed>
+                    <distance>7.0</distance>
+                    <time>0.0</time>
+               </costs>
+          </type>
+     </vehicleTypes>
+     <shipments>
+          <shipment id="3">
+               <pickup>
+                    <locationId>[x=15.0][y=7.0]</locationId>
+                    <coord x="15.0" y="7.0"/>
+                    <duration>0.0</duration>
+                    <timeWindows>
+                         <timeWindow>
+                              <start>0.0</start>
+                              <end>1.7976931348623157E308</end>
+                         </timeWindow>
+                    </timeWindows>
+               </pickup>
+               <delivery>
+                    <locationId>[x=14.0][y=9.0]</locationId>
+                    <coord x="14.0" y="9.0"/>
+                    <duration>0.0</duration>
+                    <timeWindows>
+                         <timeWindow>
+                              <start>0.0</start>
+                              <end>1.7976931348623157E308</end>
+                         </timeWindow>
+                    </timeWindows>
+               </delivery>
+               <capacity-dimensions>
+                    <dimension index="0">200</dimension>
+               </capacity-dimensions>
+          </shipment>
+          <shipment id="2">
+               <pickup>
+                    <locationId>[x=5.0][y=13.0]</locationId>
+                    <coord x="5.0" y="13.0"/>
+                    <duration>0.0</duration>
+                    <timeWindows>
+                         <timeWindow>
+                              <start>0.0</start>
+                              <end>1.7976931348623157E308</end>
+                         </timeWindow>
+                    </timeWindows>
+               </pickup>
+               <delivery>
+                    <locationId>[x=6.0][y=11.0]</locationId>
+                    <coord x="6.0" y="11.0"/>
+                    <duration>0.0</duration>
+                    <timeWindows>
+                         <timeWindow>
+                              <start>0.0</start>
+                              <end>1.7976931348623157E308</end>
+                         </timeWindow>
+                    </timeWindows>
+               </delivery>
+               <capacity-dimensions>
+                    <dimension index="0">70</dimension>
+               </capacity-dimensions>
+          </shipment>
+          <shipment id="1">
+               <pickup>
+                    <locationId>[x=5.0][y=7.0]</locationId>
+                    <coord x="5.0" y="7.0"/>
+                    <duration>0.0</duration>
+                    <timeWindows>
+                         <timeWindow>
+                              <start>0.0</start>
+                              <end>1.7976931348623157E308</end>
+                         </timeWindow>
+                    </timeWindows>
+               </pickup>
+               <delivery>
+                    <locationId>[x=6.0][y=9.0]</locationId>
+                    <coord x="6.0" y="9.0"/>
+                    <duration>0.0</duration>
+                    <timeWindows>
+                         <timeWindow>
+                              <start>0.0</start>
+                              <end>1.7976931348623157E308</end>
+                         </timeWindow>
+                    </timeWindows>
+               </delivery>
+               <capacity-dimensions>
+                    <dimension index="0">50</dimension>
+               </capacity-dimensions>
+          </shipment>
+          <shipment id="4">
+               <pickup>
+                    <locationId>[x=15.0][y=13.0]</locationId>
+                    <coord x="15.0" y="13.0"/>
+                    <duration>0.0</duration>
+                    <timeWindows>
+                         <timeWindow>
+                              <start>0.0</start>
+                              <end>1.7976931348623157E308</end>
+                         </timeWindow>
+                    </timeWindows>
+               </pickup>
+               <delivery>
+                    <locationId>[x=14.0][y=11.0]</locationId>
+                    <coord x="14.0" y="11.0"/>
+                    <duration>0.0</duration>
+                    <timeWindows>
+                         <timeWindow>
+                              <start>0.0</start>
+                              <end>1.7976931348623157E308</end>
+                         </timeWindow>
+                    </timeWindows>
+               </delivery>
+               <capacity-dimensions>
+                    <dimension index="0">200</dimension>
+               </capacity-dimensions>
+          </shipment>
+     </shipments>
+     <solutions>
+          <solution>
+               <cost>5126.777305178813</cost>
+               <routes>
+                    <route>
+                         <driverId>noDriver</driverId>
+                         <vehicleId>vehicle1_1</vehicleId>
+                         <start>0.0</start>
+                         <act type="pickupShipment">
+                              <shipmentId>1</shipmentId>
+                              <arrTime>5.830951894845301</arrTime>
+                              <endTime>5.830951894845301</endTime>
+                         </act>
+                         <act type="deliverShipment">
+                              <shipmentId>1</shipmentId>
+                              <arrTime>8.06701987234509</arrTime>
+                              <endTime>8.06701987234509</endTime>
+                         </act>
+                         <end>12.19012549796275</end>
+                    </route>
+                    <route>
+                         <driverId>noDriver</driverId>
+                         <vehicleId>vehicle3</vehicleId>
+                         <start>0.0</start>
+                         <act type="pickupShipment">
+                              <shipmentId>4</shipmentId>
+                              <arrTime>5.830951894845301</arrTime>
+                              <endTime>5.830951894845301</endTime>
+                         </act>
+                         <act type="deliverShipment">
+                              <shipmentId>4</shipmentId>
+                              <arrTime>8.06701987234509</arrTime>
+                              <endTime>8.06701987234509</endTime>
+                         </act>
+                         <end>12.19012549796275</end>
+                    </route>
+                    <route>
+                         <driverId>noDriver</driverId>
+                         <vehicleId>vehicle1_2</vehicleId>
+                         <start>0.0</start>
+                         <act type="pickupShipment">
+                              <shipmentId>2</shipmentId>
+                              <arrTime>5.830951894845301</arrTime>
+                              <endTime>5.830951894845301</endTime>
+                         </act>
+                         <act type="deliverShipment">
+                              <shipmentId>2</shipmentId>
+                              <arrTime>8.06701987234509</arrTime>
+                              <endTime>8.06701987234509</endTime>
+                         </act>
+                         <end>12.19012549796275</end>
+                    </route>
+                    <route>
+                         <driverId>noDriver</driverId>
+                         <vehicleId>penaltyVehicle_[x=10.0][y=10.0]_type3</vehicleId>
+                         <start>0.0</start>
+                         <act type="pickupShipment">
+                              <shipmentId>3</shipmentId>
+                              <arrTime>5.830951894845301</arrTime>
+                              <endTime>5.830951894845301</endTime>
+                         </act>
+                         <act type="deliverShipment">
+                              <shipmentId>3</shipmentId>
+                              <arrTime>8.06701987234509</arrTime>
+                              <endTime>8.06701987234509</endTime>
+                         </act>
+                         <end>12.19012549796275</end>
+                    </route>
+               </routes>
+          </solution>
+     </solutions>
+</problem>
