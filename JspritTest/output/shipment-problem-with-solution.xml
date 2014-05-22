@@ -19,7 +19,7 @@
                </endLocation>
                <timeSchedule>
                     <start>0.0</start>
-                    <end>15.0</end>
+                    <end>20.0</end>
                </timeSchedule>
                <returnToDepot>true</returnToDepot>
           </vehicle>
@@ -36,7 +36,7 @@
                </endLocation>
                <timeSchedule>
                     <start>0.0</start>
-                    <end>15.0</end>
+                    <end>20.0</end>
                </timeSchedule>
                <returnToDepot>true</returnToDepot>
           </vehicle>
@@ -53,7 +53,7 @@
                </endLocation>
                <timeSchedule>
                     <start>0.0</start>
-                    <end>15.0</end>
+                    <end>20.0</end>
                </timeSchedule>
                <returnToDepot>true</returnToDepot>
           </vehicle>
@@ -70,7 +70,7 @@
                </endLocation>
                <timeSchedule>
                     <start>0.0</start>
-                    <end>15.0</end>
+                    <end>20.0</end>
                </timeSchedule>
                <returnToDepot>true</returnToDepot>
           </vehicle>
@@ -87,7 +87,7 @@
                </endLocation>
                <timeSchedule>
                     <start>0.0</start>
-                    <end>15.0</end>
+                    <end>20.0</end>
                </timeSchedule>
                <returnToDepot>true</returnToDepot>
           </vehicle>
@@ -104,7 +104,7 @@
                </endLocation>
                <timeSchedule>
                     <start>0.0</start>
-                    <end>15.0</end>
+                    <end>20.0</end>
                </timeSchedule>
                <returnToDepot>true</returnToDepot>
           </vehicle>
@@ -121,7 +121,7 @@
                </endLocation>
                <timeSchedule>
                     <start>0.0</start>
-                    <end>15.0</end>
+                    <end>20.0</end>
                </timeSchedule>
                <returnToDepot>true</returnToDepot>
           </vehicle>
@@ -138,7 +138,7 @@
                </endLocation>
                <timeSchedule>
                     <start>0.0</start>
-                    <end>15.0</end>
+                    <end>20.0</end>
                </timeSchedule>
                <returnToDepot>true</returnToDepot>
           </vehicle>
@@ -216,7 +216,7 @@
                <pickup>
                     <locationId>[x=15.0][y=7.0]</locationId>
                     <coord x="15.0" y="7.0"/>
-                    <duration>0.0</duration>
+                    <duration>1.0</duration>
                     <timeWindows>
                          <timeWindow>
                               <start>0.0</start>
@@ -227,7 +227,7 @@
                <delivery>
                     <locationId>[x=14.0][y=9.0]</locationId>
                     <coord x="14.0" y="9.0"/>
-                    <duration>0.0</duration>
+                    <duration>1.0</duration>
                     <timeWindows>
                          <timeWindow>
                               <start>0.0</start>
@@ -243,7 +243,7 @@
                <pickup>
                     <locationId>[x=5.0][y=13.0]</locationId>
                     <coord x="5.0" y="13.0"/>
-                    <duration>0.0</duration>
+                    <duration>1.0</duration>
                     <timeWindows>
                          <timeWindow>
                               <start>0.0</start>
@@ -254,7 +254,7 @@
                <delivery>
                     <locationId>[x=6.0][y=11.0]</locationId>
                     <coord x="6.0" y="11.0"/>
-                    <duration>0.0</duration>
+                    <duration>1.0</duration>
                     <timeWindows>
                          <timeWindow>
                               <start>0.0</start>
@@ -270,7 +270,7 @@
                <pickup>
                     <locationId>[x=5.0][y=7.0]</locationId>
                     <coord x="5.0" y="7.0"/>
-                    <duration>0.0</duration>
+                    <duration>1.0</duration>
                     <timeWindows>
                          <timeWindow>
                               <start>0.0</start>
@@ -281,7 +281,7 @@
                <delivery>
                     <locationId>[x=6.0][y=9.0]</locationId>
                     <coord x="6.0" y="9.0"/>
-                    <duration>0.0</duration>
+                    <duration>1.0</duration>
                     <timeWindows>
                          <timeWindow>
                               <start>0.0</start>
@@ -297,7 +297,7 @@
                <pickup>
                     <locationId>[x=15.0][y=13.0]</locationId>
                     <coord x="15.0" y="13.0"/>
-                    <duration>0.0</duration>
+                    <duration>1.0</duration>
                     <timeWindows>
                          <timeWindow>
                               <start>0.0</start>
@@ -308,7 +308,7 @@
                <delivery>
                     <locationId>[x=14.0][y=11.0]</locationId>
                     <coord x="14.0" y="11.0"/>
-                    <duration>0.0</duration>
+                    <duration>1.0</duration>
                     <timeWindows>
                          <timeWindow>
                               <start>0.0</start>
@@ -317,13 +317,13 @@
                     </timeWindows>
                </delivery>
                <capacity-dimensions>
-                    <dimension index="0">200</dimension>
+                    <dimension index="0">10</dimension>
                </capacity-dimensions>
           </shipment>
      </shipments>
      <solutions>
           <solution>
-               <cost>5126.777305178813</cost>
+               <cost>56.07457729062865</cost>
                <routes>
                     <route>
                          <driverId>noDriver</driverId>
@@ -332,62 +332,62 @@
                          <act type="pickupShipment">
                               <shipmentId>1</shipmentId>
                               <arrTime>5.830951894845301</arrTime>
-                              <endTime>5.830951894845301</endTime>
+                              <endTime>6.830951894845301</endTime>
                          </act>
                          <act type="deliverShipment">
                               <shipmentId>1</shipmentId>
-                              <arrTime>8.06701987234509</arrTime>
-                              <endTime>8.06701987234509</endTime>
+                              <arrTime>9.06701987234509</arrTime>
+                              <endTime>10.06701987234509</endTime>
                          </act>
-                         <end>12.19012549796275</end>
-                    </route>
-                    <route>
-                         <driverId>noDriver</driverId>
-                         <vehicleId>vehicle3</vehicleId>
-                         <start>0.0</start>
-                         <act type="pickupShipment">
-                              <shipmentId>4</shipmentId>
-                              <arrTime>5.830951894845301</arrTime>
-                              <endTime>5.830951894845301</endTime>
-                         </act>
-                         <act type="deliverShipment">
-                              <shipmentId>4</shipmentId>
-                              <arrTime>8.06701987234509</arrTime>
-                              <endTime>8.06701987234509</endTime>
-                         </act>
-                         <end>12.19012549796275</end>
+                         <end>14.19012549796275</end>
                     </route>
                     <route>
                          <driverId>noDriver</driverId>
                          <vehicleId>vehicle1_2</vehicleId>
                          <start>0.0</start>
                          <act type="pickupShipment">
-                              <shipmentId>2</shipmentId>
+                              <shipmentId>4</shipmentId>
                               <arrTime>5.830951894845301</arrTime>
-                              <endTime>5.830951894845301</endTime>
+                              <endTime>6.830951894845301</endTime>
                          </act>
                          <act type="deliverShipment">
-                              <shipmentId>2</shipmentId>
-                              <arrTime>8.06701987234509</arrTime>
-                              <endTime>8.06701987234509</endTime>
+                              <shipmentId>4</shipmentId>
+                              <arrTime>9.06701987234509</arrTime>
+                              <endTime>10.06701987234509</endTime>
                          </act>
-                         <end>12.19012549796275</end>
+                         <end>14.19012549796275</end>
                     </route>
                     <route>
                          <driverId>noDriver</driverId>
-                         <vehicleId>penaltyVehicle_[x=10.0][y=10.0]_type3</vehicleId>
+                         <vehicleId>vehicle2_1</vehicleId>
+                         <start>0.0</start>
+                         <act type="pickupShipment">
+                              <shipmentId>2</shipmentId>
+                              <arrTime>5.830951894845301</arrTime>
+                              <endTime>6.830951894845301</endTime>
+                         </act>
+                         <act type="deliverShipment">
+                              <shipmentId>2</shipmentId>
+                              <arrTime>9.06701987234509</arrTime>
+                              <endTime>10.06701987234509</endTime>
+                         </act>
+                         <end>14.19012549796275</end>
+                    </route>
+                    <route>
+                         <driverId>noDriver</driverId>
+                         <vehicleId>vehicle3</vehicleId>
                          <start>0.0</start>
                          <act type="pickupShipment">
                               <shipmentId>3</shipmentId>
                               <arrTime>5.830951894845301</arrTime>
-                              <endTime>5.830951894845301</endTime>
+                              <endTime>6.830951894845301</endTime>
                          </act>
                          <act type="deliverShipment">
                               <shipmentId>3</shipmentId>
-                              <arrTime>8.06701987234509</arrTime>
-                              <endTime>8.06701987234509</endTime>
+                              <arrTime>9.06701987234509</arrTime>
+                              <endTime>10.06701987234509</endTime>
                          </act>
-                         <end>12.19012549796275</end>
+                         <end>14.19012549796275</end>
                     </route>
                </routes>
           </solution>

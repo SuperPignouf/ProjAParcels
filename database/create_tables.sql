@@ -9,7 +9,10 @@ DROP TABLE IF EXISTS Parcel;
 DROP TABLE IF EXISTS Order_Status;
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS Client;
+DROP TABLE IF EXISTS Step;
+DROP TABLE IF EXISTS Route;
 DROP TABLE IF EXISTS User;
+
 
 CREATE TABLE User (
 	user_id int(8) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -17,7 +20,7 @@ CREATE TABLE User (
 	last_name varchar(20) NOT NULL,
 	matricule int(6) NOT NULL unique,
 	role int(1) NOT NULL,
-	password varchar(20) NOT NULL,
+	password text NOT NULL,
 	is_active int(1) NOT NULL default '0',
 	time_stp timestamp default current_timestamp
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -104,4 +107,28 @@ CREATE TABLE Logging (
 	action_type varchar(20) NOT NULL,
 	PRIMARY KEY ( time_stp, user_id),
 	FOREIGN KEY (user_id) REFERENCES User(user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE Route (
+	route_id int(8) NOT NULL default 1 AUTO_INCREMENT,
+	transporter_id int(8),
+	vehicule_name text,
+	from_date DATETIME  default current_timestamp,
+	to_date DATETIME,
+	time_stp timestamp default current_timestamp,
+	PRIMARY KEY (route_id,from_date),
+	FOREIGN KEY (transporter_id) REFERENCES User(user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE Step (
+	step_id int(8) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	route_id int(8) NOT NULL,
+	latitude float,
+	longitude float,
+	step_number int,
+	departure_time int,
+	arrival_time int,
+	performed int(1) default 0,
+	time_stp timestamp default current_timestamp,
+	FOREIGN KEY (route_id) REFERENCES Route(route_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
