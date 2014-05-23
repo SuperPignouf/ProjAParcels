@@ -26,7 +26,7 @@ CREATE TABLE User (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Client (
-	client_id int(8) NOT NULL,
+	client_id int(8) NOT NULL UNIQUE AUTO_INCREMENT,
 	country varchar(20) NOT NULL,
 	contact_name varchar(40) NOT NULL,
 	company_name varchar(20) NOT NULL,
@@ -47,12 +47,12 @@ CREATE TABLE Client (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Orders (
-	order_id int(8) NOT NULL,
+	order_id int(8) NOT NULL UNIQUE AUTO_INCREMENT,
 	sender_id int(8) NOT NULL,
 	receiver_id int(8) NOT NULL,
 	billing_currency varchar(20) NOT NULL,
 	billing_value float NOT NULL,
-	collection_date timestamp NOT NULL,
+	collection_date timestamp,
 	time_stp timestamp default current_timestamp,
 	from_date DATETIME default current_timestamp,
 	to_date DATETIME default '9999-12-31 23:59:59',
@@ -72,7 +72,7 @@ CREATE TABLE Order_Status (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Parcel (
-	parcel_id int(8) NOT NULL,
+	parcel_id int(8) NOT NULL UNIQUE AUTO_INCREMENT,
 	order_id int(8) NOT NULL,
 	scan_code TEXT(20) NOT NULL,
 	scan_code_type varchar(10) NOT NULL,
@@ -110,7 +110,7 @@ CREATE TABLE Logging (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Route (
-	route_id int(8) NOT NULL default 1 AUTO_INCREMENT,
+	route_id int(8) NOT NULL UNIQUE AUTO_INCREMENT,
 	transporter_id int(8),
 	vehicule_name text,
 	from_date DATETIME  default current_timestamp,

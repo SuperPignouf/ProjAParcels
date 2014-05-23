@@ -62,7 +62,7 @@ public class ProblemBuilder {
 		 * et ce pour tous les ordres de transport valables.
 		 */
 		ResultSet result = statement.executeQuery("SELECT C1.address_street, C1.address_number, C1.city, C1.region, C1.state_department, C1.postal_code, "
-				+ "C2.address_street, C2.address_number, C2.city, C2.region, C2.state_department, C2.postal_code, sum(P.mass_kg) "
+				+ "C2.address_street, C2.address_number, C2.city, C2.region, C2.state_department, C2.postal_code, P.mass_kg "
 				+ "FROM client C1, client C2, orders O, parcel P "
 				+ "WHERE O.to_date > CURRENT_TIMESTAMP AND "
 				+ "O.sender_id = C1.client_id AND "
@@ -97,18 +97,18 @@ public class ProblemBuilder {
 		/*
 		 * Definition de la flotte: nous considerons trois types de vehicules caracterises par leur capacite et leur cout d'utilisation.
 		 * Nous considerons une flotte de 5 vehicules (2 du type 1, 2 du type 2, 1 du type 3).
-		 * Chaque vehicule commence sa route au depot et est operationnel lors de la meme plage de temps.
+		 * Chaque vehicule commence sa route au depot et est operationnel lors de la meme plage de temps. 50.827144, 4.366822
 		 */
 		VehicleTypeImpl vehicleType1 = VehicleTypeImpl.Builder.newInstance("type1").addCapacityDimension(0,120).setCostPerDistance(1.0).build();
-		VehicleImpl vehicle1_1 = VehicleImpl.Builder.newInstance("vehicle1_1").setStartLocationCoordinate(Coordinate.newInstance(10, 10)).setEarliestStart(0).setLatestArrival(100).setType(vehicleType1).build();
-		VehicleImpl vehicle1_2 = VehicleImpl.Builder.newInstance("vehicle1_2").setStartLocationCoordinate(Coordinate.newInstance(10, 10)).setEarliestStart(0).setLatestArrival(100).setType(vehicleType1).build();
+		VehicleImpl vehicle1_1 = VehicleImpl.Builder.newInstance("vehicle1_1").setStartLocationCoordinate(Coordinate.newInstance(50.827144, 4.366822)).setEarliestStart(0).setLatestArrival(100).setType(vehicleType1).build();
+		VehicleImpl vehicle1_2 = VehicleImpl.Builder.newInstance("vehicle1_2").setStartLocationCoordinate(Coordinate.newInstance(50.827144, 4.366822)).setEarliestStart(0).setLatestArrival(100).setType(vehicleType1).build();
 		
 		VehicleTypeImpl vehicleType2 = VehicleTypeImpl.Builder.newInstance("type2").addCapacityDimension(0,160).setCostPerDistance(1.2).build();
-		VehicleImpl vehicle2_1 = VehicleImpl.Builder.newInstance("vehicle2_1").setStartLocationCoordinate(Coordinate.newInstance(10, 10)).setEarliestStart(0).setLatestArrival(100).setType(vehicleType2).build();
-		VehicleImpl vehicle2_2 = VehicleImpl.Builder.newInstance("vehicle2_2").setStartLocationCoordinate(Coordinate.newInstance(10, 10)).setEarliestStart(0).setLatestArrival(100).setType(vehicleType2).build();
+		VehicleImpl vehicle2_1 = VehicleImpl.Builder.newInstance("vehicle2_1").setStartLocationCoordinate(Coordinate.newInstance(50.827144, 4.366822)).setEarliestStart(0).setLatestArrival(100).setType(vehicleType2).build();
+		VehicleImpl vehicle2_2 = VehicleImpl.Builder.newInstance("vehicle2_2").setStartLocationCoordinate(Coordinate.newInstance(50.827144, 4.366822)).setEarliestStart(0).setLatestArrival(100).setType(vehicleType2).build();
 
 		VehicleTypeImpl vehicleType3 = VehicleTypeImpl.Builder.newInstance("type3").addCapacityDimension(0,300).setCostPerDistance(1.4).build();
-		VehicleImpl vehicle3 = VehicleImpl.Builder.newInstance("vehicle3").setStartLocationCoordinate(Coordinate.newInstance(10, 10)).setEarliestStart(0).setLatestArrival(100).setType(vehicleType3).build();
+		VehicleImpl vehicle3 = VehicleImpl.Builder.newInstance("vehicle3").setStartLocationCoordinate(Coordinate.newInstance(50.827144, 4.366822)).setEarliestStart(0).setLatestArrival(100).setType(vehicleType3).build();
 
 		/*
 		 * Instanciation du constructeur de probleme de routage et ajout des informations concernant la flotte.
@@ -124,7 +124,7 @@ public class ProblemBuilder {
 		 */
 		int coordinatesCounter = 0;
 		for(int massesCounter = 0; massesCounter < this.masses.size(); massesCounter ++){
-			vrpBuilder.addJob(Shipment.Builder.newInstance(Integer.toString(massesCounter)).addSizeDimension(0, this.masses.get(massesCounter)).setPickupCoord(Coordinate.newInstance(this.coordinates.get(coordinatesCounter), this.coordinates.get(coordinatesCounter + 1))).setPickupServiceTime(5).setDeliveryCoord(Coordinate.newInstance(this.coordinates.get(coordinatesCounter + 2), this.coordinates.get(coordinatesCounter + 3))).setDeliveryServiceTime(5).build());
+			vrpBuilder.addJob(Shipment.Builder.newInstance(Integer.toString(massesCounter)).addSizeDimension(0, this.masses.get(massesCounter)).setPickupCoord(Coordinate.newInstance(this.coordinates.get(coordinatesCounter), this.coordinates.get(coordinatesCounter + 1) )).setPickupServiceTime(5).setDeliveryCoord(Coordinate.newInstance(this.coordinates.get(coordinatesCounter + 2) , this.coordinates.get(coordinatesCounter + 3) )).setDeliveryServiceTime(5).build());
 			coordinatesCounter += 4;
 		}
 		

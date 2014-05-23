@@ -15,7 +15,7 @@ public class Main {
 	public static void main(String[] args) {		
 		try {
 			/*
-			 * On instancie un resolveur de PDP en lui passant un PDP en parametre.
+			 * On instancie un solveur de PDP en lui passant un PDP en parametre.
 			 * Le PDP est construit a partir des ordres de transports courants 
 			 * enregistres en base de donnees.
 			 */
