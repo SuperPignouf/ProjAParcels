@@ -8,6 +8,8 @@
 
 package activities;
 
+import geolocation.CurrentLocation;
+
 import java.util.Scanner;
 
 import nfc.NFCForegroundUtil;
@@ -18,7 +20,6 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -187,11 +188,16 @@ public class ScanActivity extends Activity implements OnClickListener {
 		}
 		if(arg0.getId()==R.id.scan_status){ // Cas du bouton commandant la mise a jour de statut
 			state = 2; // La derniere action est une mise a jour de statut
+			
+			// On recupere les coordonnees du smartphone.
+			CurrentLocation location = new CurrentLocation(this);
 
 			// Instanciation et configuration d'un client REST.
 			RestClient client =  new RestClient("http://" + getString(R.string.restIP) + "/ParcelREST/rest/update", this);
 			client.AddParam("format", this.scanFormat);
 			client.AddParam("content", this.scanContent.replace(" ", ""));
+			client.AddParam("latitude", location.getLatitude());
+			client.AddParam("longitude", location.getLongitude());
 			client.setRequestType(RequestMethod.GET);
 			try {
 				client.execute(); // Execution de la requete de mise a jour de statut

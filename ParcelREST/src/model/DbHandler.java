@@ -1,17 +1,18 @@
-/**
- * Gere la connexion et les requetes a la base de donnees.
- */
-
 package model;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import email.EmailSender;
 
+/**
+ * Gere la connexion et les requetes a la base de donnees.
+ */
 public class DbHandler {
 
 	private Connection connection;
@@ -165,11 +166,13 @@ public class DbHandler {
 	 * en creant une nouvelle entree statut dans la table des statuts associee
 	 * au colis.
 	 * @param format Le format d'encodage du code barres ou RFID.
+	 * @param longitude 
+	 * @param latitude 
 	 * @param content Le contenu du code barres ou de la puce RFID.
 	 * @return Un string contenant le nouveau statut du colis.
 	 * @see webService.StatusUpdateHandler#updateStatus(String, String)
 	 */
-	public String updateStatus(String format, String code) {
+	public String updateStatus(String format, String code, String latitude, String longitude) {
 		Statement statement = null;
 		String parcelID = "-1";
 		String returnValue = "Item not registered."; // Valeur initiale: message d'erreur.
@@ -224,13 +227,13 @@ public class DbHandler {
 					// ou en entrepot ("stored"), alors le nouveau statut est en transit.
 					if(currentStatus.equals("sender") || currentStatus.equals("stored")){
 						returnValue = "transit";
-						this.updateDB(parcelID, returnValue); // Mise a jour de l'etat du colis dans la base de donnees.
+						this.updateDB(parcelID, returnValue, latitude, longitude); // Mise a jour de l'etat du colis dans la base de donnees.
 						new EmailSender(parcelContent, parcelDescription, currentStatus, returnValue, senderEmail, receiverEmail);
 					}
 					// Si le colis etait en transit, le nouveau statut est delivre avec succes.
 					else if(currentStatus.equals("transit")){
 						returnValue = "delivered";
-						this.updateDB(parcelID, returnValue); // Mise a jour de l'etat du colis dans la base de donnees.
+						this.updateDB(parcelID, returnValue, latitude, longitude); // Mise a jour de l'etat du colis dans la base de donnees.
 						new EmailSender(parcelContent, parcelDescription, currentStatus, returnValue, senderEmail, receiverEmail);
 					}
 
@@ -252,9 +255,11 @@ public class DbHandler {
 	 * au colis specifie.
 	 * @param parcelID L'ID dans la base de donnees du colis dont il faut mettre le statut a jour.
 	 * @param newStatus Le nouveau statut du colis.
+	 * @param longitude La latitude de scan
+	 * @param latitude La longitude de scan
 	 * @see #updateStatus(String, String)
 	 */
-	private void updateDB(String parcelID, String newStatus) {
+	private void updateDB(String parcelID, String newStatus, String latitude, String longitude) {
 		Statement statement = null;
 		try {
 			statement = this.connection.createStatement();
@@ -271,15 +276,17 @@ public class DbHandler {
 							+ "LIMIT 1");
 			
 			// Cree un nouveau statut.
-			statement.executeUpdate("INSERT INTO `parcels`.`parcel_status` (" 
-					+ "`parcel_id` ,"
-					+ "`status` ,"
-					+ "`comment` ,"
-					+ "`from_date` ,"
-					+ "`to_date`"
+			statement.executeUpdate("INSERT INTO parcel_status (" 
+					+ "parcel_id ,"
+					+ "status ,"
+					+ "comment ,"
+					+ "latitude ,"
+					+ "longitude ,"
+					+ "from_date ,"
+					+ "to_date"
 					+ ")"
 					+ "VALUES ("
-					+ "'" + parcelID + "', '" + newStatus + "', NULL ,"
+					+ "'" + parcelID + "', '" + newStatus + "', NULL , " + latitude + ", " + longitude +", "
 					+ "CURRENT_TIMESTAMP , '9999-12-31 23:59:59'"
 					+ ")");
 		} catch (SQLException e) {

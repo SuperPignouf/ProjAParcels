@@ -9,7 +9,6 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-import org.apache.tomcat.jni.Time;
 
 public class EmailSender {
 
@@ -21,12 +20,23 @@ public class EmailSender {
 		String from = USER_NAME;
 		String pass = PASSWORD;
 		String body = "Dear Customer, \n The status of your parcel (Name: " + parcelContent + "; Description: " + parcelDescription + ") has just changed from " + previousStatus + " to " + newStatus + ". \n Best regards, \n The PotM Team.";
-		String[] to = { senderEmail, receiverEmail };
-		
-		System.out.println("email 1 :" + senderEmail);
-		System.out.println("email 2 :" + receiverEmail);
-		
-		sendFromGMail(from, pass, to, subject, body);
+		if (isValidEmailAddress(senderEmail) && isValidEmailAddress(receiverEmail)){
+			String[] to = { senderEmail, receiverEmail };
+			sendFromGMail(from, pass, to, subject, body);
+		} 
+		else if (isValidEmailAddress(receiverEmail)){
+			String[] to = { receiverEmail };
+			System.out.println("Sender has invalid email address");
+			sendFromGMail(from, pass, to, subject, body);
+		}
+		else if (isValidEmailAddress(senderEmail)){
+			String[] to = { senderEmail };
+			System.out.println("Receiver has invalid email address");
+			sendFromGMail(from, pass, to, subject, body);
+		}
+		else{
+			System.out.println("Both sender and receiver have invalid email address");
+		}
 	}
 
 	private static void sendFromGMail(String from, String pass, String[] to, String subject, String body) {
@@ -71,4 +81,15 @@ public class EmailSender {
 
 		System.out.println("Email sent");
 	}
+	
+	private boolean isValidEmailAddress(String email) {
+		   boolean result = true;
+		   try {
+		      InternetAddress emailAddr = new InternetAddress(email);
+		      emailAddr.validate();
+		   } catch (AddressException ex) {
+		      result = false;
+		   }
+		   return result;
+		}
 }
