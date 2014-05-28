@@ -36,7 +36,6 @@ public class DbHandler {
 			System.out.println("Error establishing connection to DB.");
 			e.printStackTrace();
 		}
-		//this.addUser(); // A SUPPRIMER
 	}
 
 	/**
@@ -295,44 +294,4 @@ public class DbHandler {
 		}
 
 	}
-	
-	// Methode a usage personnel permettant  de peupler la base de donnees avec des passwords hashes
-	// Ne fera pas partie de la version finale du projet.
-	private void addUser(){
-		MessageDigest digest = null;
-		try {
-			digest = java.security.MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        digest.update("roger".getBytes());
-        byte messageDigest[] = digest.digest();
-        
-        // Create Hex String
-        StringBuffer hexString = new StringBuffer();
-        for (int i=0; i<messageDigest.length; i++)
-            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-        String encryptedString = hexString.toString();
-
-		
-		System.out.println(encryptedString);
-		Statement statement = null;
-		try {
-			statement = this.connection.createStatement();
-		} catch (SQLException e) {
-			System.out.println("Error making statement.");
-			e.printStackTrace();
-		}
-		try {	
-			statement.executeUpdate("UPDATE user "
-					+ "SET password = '" + encryptedString
-					+ "' WHERE user_id = 1");
-			
-		} catch (SQLException e) {
-			System.out.println("Error upating database.");
-			e.printStackTrace();
-		}
-	}
-
 }
