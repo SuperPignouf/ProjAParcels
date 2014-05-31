@@ -3,6 +3,8 @@ package solver;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import jsprit.analysis.toolbox.SolutionPrinter;
+import jsprit.analysis.toolbox.SolutionPrinter.Print;
 import jsprit.core.algorithm.VehicleRoutingAlgorithm;
 import jsprit.core.algorithm.box.SchrimpfFactory;
 import jsprit.core.problem.VehicleRoutingProblem;
@@ -44,7 +46,7 @@ public class PDPSolver {
 		/*
 		 * Affichage en console de la solution.
 		 */
-		//SolutionPrinter.print(problem, bestSolution, Print.VERBOSE);
+		SolutionPrinter.print(problem, bestSolution, Print.VERBOSE);
 	}
 
 }

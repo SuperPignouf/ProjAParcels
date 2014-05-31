@@ -121,6 +121,7 @@ public class MapClient {
 		}
 		for (String loc:locations){
 			result.add(this.getLocations(loc.replaceAll("null", ""))); // Appel a GoogleMaps.
+			//System.out.println(this.getLocations(loc.replaceAll("null", "")));
 		}
 	}
 	

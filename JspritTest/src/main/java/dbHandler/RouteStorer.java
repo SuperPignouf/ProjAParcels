@@ -73,8 +73,8 @@ public class RouteStorer {
 				List<String> locs = new ArrayList<String>();
 				locs.add(step.getLocationId().substring(step.getLocationId().indexOf("x") + 2, step.getLocationId().indexOf("y") - 2));
 				locs.add(step.getLocationId().substring(step.getLocationId().indexOf("y") + 2).replace("]", ""));
-				double latitude = Double.parseDouble(locs.get(0));
-				double longitude = Double.parseDouble(locs.get(1));
+				double latitude = Double.parseDouble(locs.get(0))/1000;
+				double longitude = Double.parseDouble(locs.get(1))/1000;
 				/*
 				 * Appel de la methode d'enregistrement d'etape.
 				 */
