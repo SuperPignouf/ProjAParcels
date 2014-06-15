@@ -99,7 +99,7 @@ public class ProblemBuilder {
 		 * Nous considerons une flotte de 5 vehicules (2 du type 1, 2 du type 2, 1 du type 3).
 		 * Chaque vehicule commence sa route au depot et est operationnel lors de la meme plage de temps. 50.827144, 4.366822
 		 */
-		VehicleTypeImpl vehicleType1 = VehicleTypeImpl.Builder.newInstance("type1").addCapacityDimension(0,120).setCostPerDistance(1.0).build();
+		VehicleTypeImpl vehicleType1 = VehicleTypeImpl.Builder.newInstance("type1").addCapacityDimension(0,200).setCostPerDistance(1.0).build();
 		VehicleImpl vehicle1_1 = VehicleImpl.Builder.newInstance("vehicle1_1").setStartLocationCoordinate(Coordinate.newInstance(50.8422767* 1000, 4.2994471* 1000)).setEarliestStart(0).setLatestArrival(500).setType(vehicleType1).build();
 		VehicleImpl vehicle1_2 = VehicleImpl.Builder.newInstance("vehicle1_2").setStartLocationCoordinate(Coordinate.newInstance(50.8422767* 1000, 4.2994471* 1000)).setEarliestStart(0).setLatestArrival(500).setType(vehicleType1).build();
 		
